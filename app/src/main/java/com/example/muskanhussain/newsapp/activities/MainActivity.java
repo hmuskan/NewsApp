@@ -15,6 +15,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 
 import com.example.muskanhussain.newsapp.R;
+import com.example.muskanhussain.newsapp.adapter.VerticalPagerAdapter;
+import com.example.muskanhussain.newsapp.customview.VerticalViewPager;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -25,15 +27,20 @@ public class MainActivity extends AppCompatActivity
     private FloatingActionButton fab;
     private Toolbar toolbar;
     private DrawerLayout drawer;
+    private VerticalViewPager newsView;
+    private VerticalPagerAdapter adapter;
+    private String baseUrl, key;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setUpUI();
+        //TODO: Add Top Headlines Endpoint by Default
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //TODO: Add Search Dialog Box
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
@@ -47,12 +54,15 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         fab = findViewById(R.id.search);
         drawer = findViewById(R.id.drawer_layout);
+        newsView = findViewById(R.id.news_view);
         NavigationView navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+        baseUrl = getResources().getString(R.string.base_url);
+        key = getResources().getString(R.string.api_key);
     }
 
     @Override
@@ -92,6 +102,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        //TODO: Modify endpoint acc to category, fill up List, and reinstantiate adapter
 
 
 
