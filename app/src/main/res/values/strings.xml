@@ -7,4 +7,7 @@
     <string name="api_key">a60e67d510164aa7822fa646d8aaaca5</string>
     <string name="base_url">https://newsapi.org/v2/</string>
     <string name="click_to_see_the_full_article">Click to see the full article</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

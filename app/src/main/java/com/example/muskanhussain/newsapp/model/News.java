@@ -5,23 +5,21 @@ package com.example.muskanhussain.newsapp.model;
  */
 public class News {
 
-    private String sourceName;
     private String title;
     private String description;
     private String imageUrl;
     private String url;
     private String publishedAt;
-    private String content;
 
     public News() {
     }
 
-    public String getSourceName() {
-        return sourceName;
-    }
-
-    public void setSourceName(String sourceName) {
-        this.sourceName = sourceName;
+    public News(String title, String description, String imageUrl, String url, String publishedAt) {
+        this.title = title;
+        this.description = description;
+        this.imageUrl = imageUrl;
+        this.url = url;
+        this.publishedAt = publishedAt;
     }
 
     public String getTitle() {
@@ -64,11 +62,4 @@ public class News {
         this.publishedAt = publishedAt;
     }
 
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
 }

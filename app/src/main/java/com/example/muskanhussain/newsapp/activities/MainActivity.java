@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -24,6 +25,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.muskanhussain.newsapp.R;
 import com.example.muskanhussain.newsapp.adapter.VerticalPagerAdapter;
 import com.example.muskanhussain.newsapp.customview.VerticalViewPager;
+import com.example.muskanhussain.newsapp.fragment.ParentFragment;
 import com.example.muskanhussain.newsapp.model.News;
 
 import org.json.JSONArray;
@@ -37,7 +39,7 @@ import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, ParentFragment.ToggleVerticalScrolling {
     private FloatingActionButton fab;
     private Toolbar toolbar;
     private DrawerLayout drawer;
@@ -52,7 +54,6 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setUpUI();
-        //TODO: Add Top Headlines Endpoint by Default
         populateHeadlines();
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,18 +74,26 @@ public class MainActivity extends AppCompatActivity
             public void onResponse(JSONObject response) {
                 try {
                     JSONArray articles = response.getJSONArray("articles");
-                    News item = new News();
+                    Log.d("MHARR", articles.toString());
                     for(int i = 0; i < articles.length(); i++) {
+                        News item = new News();
+                        Log.d("MHLEN", String.valueOf(articles.length()));
                         JSONObject ob = articles.getJSONObject(i);
+                        Log.d("MHOBJ", ob.toString());
                         item.setTitle(ob.getString("title"));
                         item.setImageUrl(ob.getString("urlToImage"));
                         item.setUrl(ob.getString("url"));
                         item.setDescription(ob.getString("description"));
                         item.setPublishedAt(ob.getString("publishedAt"));
-                        item.setContent(ob.getString("content"));
                         newsList.add(item);
+                        Log.d("MHNEWSINSIDELOOP", item.getTitle());
                     }
-                    adapter = new VerticalPagerAdapter(MainActivity.this, newsList);
+                    Log.d("MHNEWSLEN", String.valueOf(newsList.size()));
+                    for(int i = 0; i < newsList.size(); i++) {
+                        Log.d("MHSizeInsideLoop", String.valueOf(newsList.size()));
+                        Log.d("MHMAIN", newsList.get(i).getTitle());
+                    }
+                    adapter = new VerticalPagerAdapter(getSupportFragmentManager(), newsList);
                     newsView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
                 } catch (JSONException e) {
@@ -165,5 +174,24 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void trigger(int page) {
+        if(page == 1) {
+            newsView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    return true;
+                }
+            });
+        } else {
+            newsView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    return false;
+                }
+            });
+        }
     }
 }
