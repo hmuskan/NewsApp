@@ -1,8 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- TODO: Layout with Image, Source, Title, Content/Description, Link to URL -->
+    <android.support.v7.widget.CardView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="20dp"
+        android:layout_margin="5dp"
+        app:contentPadding="10dp"
+        app:cardBackgroundColor="#eae9e9">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
+            <ImageView
+                android:id="@+id/news_image"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_launcher_background"
+                />
+            <TextView
+                android:id="@+id/headline"
+                android:layout_marginTop="10dp"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:text="Felicity Huffman pleads for no jail time in college admissions scandal - Fox News"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/published_date"
+                android:layout_marginTop="5dp"
+                android:text="2013"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/news_content"
+                android:layout_marginTop="5dp"
+                android:textSize="18sp"
+                android:text="Attornies for “Desperate Housewives” star Felicity Huffman pleaded with a Boston federal judge Friday to spare her jail time after she pleaded guilty in connection with the college admissions bribery scandal."
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginTop="5dp"
+                android:textColor="#F22D90DB"
+                android:text="@string/click_to_see_the_full_article"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
 </LinearLayout>

@@ -3,6 +3,7 @@ package com.example.muskanhussain.newsapp.activities;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -14,13 +15,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.muskanhussain.newsapp.R;
 import com.example.muskanhussain.newsapp.adapter.VerticalPagerAdapter;
 import com.example.muskanhussain.newsapp.customview.VerticalViewPager;
+import com.example.muskanhussain.newsapp.model.News;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -30,6 +44,8 @@ public class MainActivity extends AppCompatActivity
     private VerticalViewPager newsView;
     private VerticalPagerAdapter adapter;
     private String baseUrl, key;
+    private RequestQueue queue;
+    private List<News> newsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +53,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         setUpUI();
         //TODO: Add Top Headlines Endpoint by Default
+        populateHeadlines();
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -47,6 +64,43 @@ public class MainActivity extends AppCompatActivity
         });
 
 
+    }
+
+    private void populateHeadlines() {
+        String url = baseUrl + "top-headlines?country=in&pageSize=10&apiKey=" + key;
+        JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONArray articles = response.getJSONArray("articles");
+                    News item = new News();
+                    for(int i = 0; i < articles.length(); i++) {
+                        JSONObject ob = articles.getJSONObject(i);
+                        item.setTitle(ob.getString("title"));
+                        item.setImageUrl(ob.getString("urlToImage"));
+                        item.setUrl(ob.getString("url"));
+                        item.setDescription(ob.getString("description"));
+                        item.setPublishedAt(ob.getString("publishedAt"));
+                        item.setContent(ob.getString("content"));
+                        newsList.add(item);
+                    }
+                    adapter = new VerticalPagerAdapter(MainActivity.this, newsList);
+                    newsView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                } catch (JSONException e) {
+                    Log.d("MHJSON", e.toString());
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("MHVOLL", error.toString());
+
+            }
+        });
+        queue.add(objectRequest);
     }
 
     private void setUpUI() {
@@ -63,6 +117,8 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         baseUrl = getResources().getString(R.string.base_url);
         key = getResources().getString(R.string.api_key);
+        queue = Volley.newRequestQueue(this);
+        newsList = new ArrayList<>();
     }
 
     @Override
