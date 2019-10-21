@@ -1,5 +1,6 @@
 package com.example.muskanhussain.newsapp.activities;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -15,6 +16,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.animation.Animation;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -54,7 +58,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setUpUI();
-        populateHeadlines();
+        populateHeadlines("none");
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,12 +71,19 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    private void populateHeadlines() {
-        String url = baseUrl + "top-headlines?country=in&pageSize=10&apiKey=" + key;
+    private void populateHeadlines(String category) {
+        String url;
+        if(category == "none") {
+            url = baseUrl + "top-headlines?country=in&pageSize=10&apiKey=" + key;
+        } else {
+            url = baseUrl + "top-headlines?country=in&category=" + category +"&pageSize=10&apiKey=" + key;
+        }
+
         JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
+                    newsList.clear();
                     JSONArray articles = response.getJSONArray("articles");
                     Log.d("MHARR", articles.toString());
                     for(int i = 0; i < articles.length(); i++) {
@@ -167,14 +178,29 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        //TODO: Modify endpoint acc to category, fill up List, and reinstantiate adapter
-
-
+        if(id == R.id.top_headlines) {
+            populateHeadlines("none");
+        } else if(id == R.id.nav_business) {
+            populateHeadlines("business");
+        } else if(id == R.id.nav_entertainment) {
+            populateHeadlines("entertainment");
+        } else if(id == R.id.nav_general) {
+            populateHeadlines("general");
+        } else if(id == R.id.nav_health) {
+            populateHeadlines("health");
+        } else if(id == R.id.nav_science) {
+            populateHeadlines("science");
+        } else if(id ==  R.id.nav_sports) {
+            populateHeadlines("sports");
+        } else if(id ==  R.id.nav_technology) {
+            populateHeadlines("technology");
+        }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 
     @Override
     public void trigger(int page) {

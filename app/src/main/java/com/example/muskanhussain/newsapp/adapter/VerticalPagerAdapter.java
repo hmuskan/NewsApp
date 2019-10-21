@@ -1,9 +1,11 @@
 package com.example.muskanhussain.newsapp.adapter;
 
 
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.Log;
 
 import com.example.muskanhussain.newsapp.fragment.ParentFragment;
@@ -14,7 +16,7 @@ import java.util.List;
 /**
  * Created by Muskan Hussain on 05-09-2019
  */
-public class VerticalPagerAdapter extends FragmentPagerAdapter {
+public class VerticalPagerAdapter extends FragmentStatePagerAdapter {
     List<News> newsList;
 
     public VerticalPagerAdapter(FragmentManager fm, List<News> newsList) {
@@ -32,4 +34,11 @@ public class VerticalPagerAdapter extends FragmentPagerAdapter {
     public int getCount() {
         return newsList.size();
     }
+
+    /*@Override
+    public int getItemPosition(@NonNull Object object) {
+        return POSITION_NONE;
+    }*/
+
+
 }

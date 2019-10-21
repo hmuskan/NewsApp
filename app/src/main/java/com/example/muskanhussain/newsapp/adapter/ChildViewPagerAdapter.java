@@ -1,8 +1,10 @@
 package com.example.muskanhussain.newsapp.adapter;
 
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.example.muskanhussain.newsapp.fragment.ChildFragment;
 import com.example.muskanhussain.newsapp.model.News;
@@ -10,7 +12,7 @@ import com.example.muskanhussain.newsapp.model.News;
 /**
  * Created by Muskan Hussain on 10-09-2019
  */
-public class ChildViewPagerAdapter extends FragmentPagerAdapter {
+public class ChildViewPagerAdapter extends FragmentStatePagerAdapter {
     News news;
     public ChildViewPagerAdapter(FragmentManager fm, News news) {
         super(fm);
@@ -33,4 +35,9 @@ public class ChildViewPagerAdapter extends FragmentPagerAdapter {
     public int getCount() {
         return 2;
     }
+
+    /*@Override
+    public int getItemPosition(@NonNull Object object) {
+        return POSITION_NONE;
+    }*/
 }

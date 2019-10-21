@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -51,6 +52,7 @@ public class ChildFragment extends Fragment {
         // Inflate the layout for this fragment
         View itemView = inflater.inflate(R.layout.fragment_child, container, false);
         WebView webView = itemView.findViewById(R.id.webView);
+        webView.setWebViewClient(new WebViewClient());
         ImageView newsImage = itemView.findViewById(R.id.news_image);
         TextView headline = itemView.findViewById(R.id.headline);
         TextView publishedDate = itemView.findViewById(R.id.published_date);
