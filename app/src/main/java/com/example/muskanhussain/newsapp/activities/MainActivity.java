@@ -44,7 +44,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ParentFragment.ToggleVerticalScrolling {
-    private FloatingActionButton fab;
     private Toolbar toolbar;
     private DrawerLayout drawer;
     private VerticalViewPager newsView;
@@ -59,15 +58,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         setUpUI();
         populateHeadlines("none");
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //TODO: Add Search Dialog Box
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
 
     }
 
@@ -126,7 +116,6 @@ public class MainActivity extends AppCompatActivity
     private void setUpUI() {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        fab = findViewById(R.id.search);
         drawer = findViewById(R.id.drawer_layout);
         newsView = findViewById(R.id.news_view);
         NavigationView navigationView = findViewById(R.id.nav_view);
